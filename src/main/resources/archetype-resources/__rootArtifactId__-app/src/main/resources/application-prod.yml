@@ -42,3 +42,10 @@ logging:
   level:
     root: info
   config: classpath:logback-spring.xml
+
+${symbol_pound} 生产环境关闭接口文档
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false

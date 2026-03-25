@@ -6,7 +6,12 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-    <!-- 暂时未使用 文档：https://mybatis.org/mybatis-3/zh/configuration.html${symbol_pound}typeAliases -->
-    <typeAliases>
-    </typeAliases>
+    <settings>
+        <!-- 驼峰命名自动映射：数据库 create_time -> Java createTime -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!-- 允许使用自动生成的主键 -->
+        <setting name="useGeneratedKeys" value="true"/>
+        <!-- 开启二级缓存（按需关闭） -->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
 </configuration>

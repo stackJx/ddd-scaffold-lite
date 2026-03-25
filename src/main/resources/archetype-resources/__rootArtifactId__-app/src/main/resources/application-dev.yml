@@ -15,8 +15,29 @@ thread:
         block-queue-size: 5000
         policy: CallerRunsPolicy
 
-${symbol_pound} 数据库配置；启动时配置数据库资源信息
 spring:
+  ${symbol_pound} Jackson 全局配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    serialization:
+      indent_output: false
+      fail_on_empty_beans: false
+    deserialization:
+      fail_on_unknown_properties: false
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: true
+  ${symbol_pound} 文件上传限制
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+  ${symbol_pound} 数据库配置
   datasource:
     username: root
     password: 123456
@@ -24,22 +45,38 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
   hikari:
     pool-name: Retail_HikariCP
-    minimum-idle: 15 ${symbol_pound}最小空闲连接数量
-    idle-timeout: 180000 ${symbol_pound}空闲连接存活最大时间，默认600000（10分钟）
-    maximum-pool-size: 25 ${symbol_pound}连接池最大连接数，默认是10
-    auto-commit: true  ${symbol_pound}此属性控制从池返回的连接的默认自动提交行为,默认值：true
-    max-lifetime: 1800000 ${symbol_pound}此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
-    connection-timeout: 30000 ${symbol_pound}数据库连接超时时间,默认30秒，即30000
+    minimum-idle: 15
+    idle-timeout: 180000
+    maximum-pool-size: 25
+    auto-commit: true
+    max-lifetime: 1800000
+    connection-timeout: 30000
     connection-test-query: SELECT 1
   type: com.zaxxer.hikari.HikariDataSource
 
-# MyBatis 配置【如需使用记得打开】
-#mybatis:
-#  mapper-locations: classpath:/mybatis/mapper/*.xml
-#  config-location:  classpath:/mybatis/config/mybatis-config.xml
+mybatis:
+  mapper-locations: classpath:/mybatis/mapper/*.xml
+  config-location: classpath:/mybatis/config/mybatis-config.xml
 
 ${symbol_pound} 日志
 logging:
   level:
-    root: info
+    ${symbol_dollar}{package}: info
+    org.springframework: warn
+    org.mybatis.spring.mapper: error
   config: classpath:logback-spring.xml
+
+${symbol_pound} 接口文档
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+  info:
+    title: ${symbol_dollar}{rootArtifactId} 接口文档
+    description: DDD 脚手架项目接口文档
+    version: 1.0.0
+    contact:
+      name: StackBug
+      email: root@stackbug.dev
