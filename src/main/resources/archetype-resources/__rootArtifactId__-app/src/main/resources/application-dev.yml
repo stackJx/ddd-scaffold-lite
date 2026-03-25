@@ -16,6 +16,10 @@ thread:
         policy: CallerRunsPolicy
 
 spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration
   ${symbol_pound} Jackson 全局配置
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
@@ -28,7 +32,6 @@ spring:
   mvc:
     format:
       date-time: yyyy-MM-dd HH:mm:ss
-    throw-exception-if-no-handler-found: true
   web:
     resources:
       add-mappings: true
@@ -37,26 +40,27 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 20MB
-  ${symbol_pound} 数据库配置
-  datasource:
-    username: root
-    password: 123456
-    url: jdbc:mariadb://127.0.0.1:3306/my_ddd_project?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=UTC&useSSL=true
-    driver-class-name: org.mariadb.jdbc.Driver
-  hikari:
-    pool-name: Retail_HikariCP
-    minimum-idle: 15
-    idle-timeout: 180000
-    maximum-pool-size: 25
-    auto-commit: true
-    max-lifetime: 1800000
-    connection-timeout: 30000
-    connection-test-query: SELECT 1
-  type: com.zaxxer.hikari.HikariDataSource
+  ${symbol_pound} 数据库配置；启用时同时删除上面的 autoconfigure.exclude
+#  datasource:
+#    type: com.zaxxer.hikari.HikariDataSource
+#    username: root
+#    password: 123456
+#    url: jdbc:mariadb://127.0.0.1:3306/my_ddd_project?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=UTC&sslMode=DISABLED
+#    driver-class-name: org.mariadb.jdbc.Driver
+#    hikari:
+#      pool-name: Retail_HikariCP
+#      minimum-idle: 0
+#      idle-timeout: 180000
+#      maximum-pool-size: 25
+#      auto-commit: true
+#      max-lifetime: 1800000
+#      connection-timeout: 30000
+#      connection-test-query: SELECT 1
+#      initialization-fail-timeout: -1 ${symbol_pound}启动时不因数据库不可达而失败
 
-mybatis:
-  mapper-locations: classpath:/mybatis/mapper/*.xml
-  config-location: classpath:/mybatis/config/mybatis-config.xml
+#mybatis:
+#  mapper-locations: classpath:/mybatis/mapper/*.xml
+#  config-location: classpath:/mybatis/config/mybatis-config.xml
 
 ${symbol_pound} 日志
 logging:

@@ -37,7 +37,7 @@
 | Catalog | 管理目录 → 添加 `https://jitpack.io` |
 | GroupId | `com.github.stackJx` |
 | ArtifactId | `ddd-scaffold-lite` |
-| Version | `v1.0` |
+| Version | `v1.3` |
 
 填写你的项目 GroupId、ArtifactId 后点击 Create 即可。
 
@@ -47,7 +47,7 @@
 mvn archetype:generate \
   -DarchetypeGroupId=com.github.stackJx \
   -DarchetypeArtifactId=ddd-scaffold-lite \
-  -DarchetypeVersion=v1.0 \
+  -DarchetypeVersion=v1.3 \
   -DgroupId=com.example \
   -DartifactId=my-project \
   -Dversion=1.0-SNAPSHOT \
