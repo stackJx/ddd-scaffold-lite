@@ -2,12 +2,12 @@
  Navicat Premium Data Transfer
 
  Source Server         : 127.0.0.1
- Source Server Type    : MySQL
+ Source Server Type    : MariaDB
  Source Server Version : 50639
  Source Host           : localhost:3306
  Source Schema         : road-map
 
- Target Server Type    : MySQL
+ Target Server Type    : MariaDB
  Target Server Version : 50639
  File Encoding         : 65001
 
