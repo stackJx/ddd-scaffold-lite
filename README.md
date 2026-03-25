@@ -1,64 +1,109 @@
-# my-ddd-project - DDD 脚手架
+# DDD Scaffold Lite
 
-## 1. 脚手架安装使用
+轻量级 DDD（领域驱动设计）脚手架，基于 Spring Boot 2.7 + 六边形架构，一键生成标准化的 DDD 工程结构。
 
-### 1. 构建安装
+## 快速开始
 
-```shell
-mvn clean install
+### 方式一：IntelliJ IDEA 创建
+
+**1. 配置 Maven**
+
+在 `~/.m2/settings.xml` 中添加 JitPack 仓库：
+
+```xml
+<profiles>
+    <profile>
+        <id>jitpack</id>
+        <repositories>
+            <repository>
+                <id>jitpack.io</id>
+                <url>https://jitpack.io</url>
+            </repository>
+        </repositories>
+    </profile>
+</profiles>
+
+<activeProfiles>
+    <activeProfile>jitpack</activeProfile>
+</activeProfiles>
 ```
 
-- 在 IntelliJ IDEA 执行 `mvn clean install` 这样会把脚手架安装到本地仓库中
+**2. 新建项目**
 
-### 2. 发布
+`File → New → Project → Maven Archetype`
 
-```shell
-mvn clean install net.ju-n.maven.plugins:checksum-maven-plugin:1.2:artifacts
-```
+| 字段 | 值 |
+|---|---|
+| Catalog | 管理目录 → 添加 `https://jitpack.io` |
+| GroupId | `com.github.stackJx` |
+| ArtifactId | `ddd-scaffold-lite` |
+| Version | `v1.0` |
 
-```shell
-mvn deploy
-```
+填写你的项目 GroupId、ArtifactId 后点击 Create 即可。
 
-### 3. 使用
+### 方式二：命令行创建
 
-```shell
+```bash
 mvn archetype:generate \
-  -DarchetypeGroupId=dev.stackbug \
+  -DarchetypeGroupId=com.github.stackJx \
   -DarchetypeArtifactId=ddd-scaffold-lite \
-  -DarchetypeVersion=1.0 \
+  -DarchetypeVersion=v1.0 \
   -DgroupId=com.example \
   -DartifactId=my-project \
-  -Dversion=1.0-SNAPSHOT
+  -Dversion=1.0-SNAPSHOT \
+  -DinteractiveMode=false
 ```
 
-## 2. 工程结构介绍
+## 工程结构
 
 ```
-.
-├── README.md
-├── docs
-│   └── dev-ops
-│       ├── app
-│       │   └── docker-compose-1.0.yml
-│       └── mysql
-│           └── sql
-│               └── my-ddd-project.sql
-├── pom.xml
-├── my-ddd-app
-│   ├── Dockerfile
-│   ├── build.sh
-│   ├── pom.xml
-│   └── src
-│       ├── main
-│       │   ├── java/dev/stackbug/
-│       │   │   ├── Application.java
-│       │   │   └── config/
-│       │   └── resources/
-│       └── test/
-├── my-ddd-domain
-├── my-ddd-infrastructure
-├── my-ddd-trigger
-├── my-ddd-types
-└── my-ddd-api
+my-project
+├── my-project-api              # API 契约层：接口定义、DTO、Response
+├── my-project-app              # 应用启动层：Spring Boot 入口、配置
+├── my-project-domain           # 领域层：聚合根、实体、值对象、领域服务
+├── my-project-infrastructure   # 基础设施层：DAO、Repository 实现、Gateway
+├── my-project-trigger          # 触发器层：HTTP 控制器、定时任务、消息监听
+├── my-project-types            # 通用类型：枚举、异常、常量
+├── docs                        # 运维文档：Docker、SQL、Shell
+└── pom.xml
 ```
+
+## 模块依赖关系
+
+```
+app → trigger → domain → types
+         ↓         ↑
+   infrastructure ─┘
+
+api（独立，无依赖）
+```
+
+## 技术栈
+
+| 组件 | 版本 |
+|---|---|
+| Java | 1.8+ |
+| Spring Boot | 2.7.12 |
+| MyBatis | 2.1.4 |
+| MySQL | 8.x |
+| Guava | 32.1.3-jre |
+| Lombok | latest |
+
+## 领域包结构
+
+```
+domain
+├── xxx                         # 限界上下文 A
+│   ├── adapter                 # 端口适配（依赖倒置接口）
+│   │   └── repository          # 仓储接口
+│   ├── model
+│   │   ├── aggregate           # 聚合根
+│   │   ├── entity              # 实体
+│   │   └── valobj              # 值对象
+│   └── service                 # 领域服务
+└── yyy                         # 限界上下文 B（同上结构）
+```
+
+## License
+
+Apache License 2.0
